@@ -12,6 +12,7 @@ const downloadZipBtn = document.getElementById('download-zip');
 const resetBtn = document.getElementById('reset-app');
 const downloadSampleBtn = document.getElementById('download-sample');
 const pdfSizeSelect = document.getElementById('pdf-size');
+const langSelect = document.getElementById('tpl-lang');
 
 // Global Inputs
 const creditsInput = document.getElementById('tpl-credits-input');
@@ -42,6 +43,30 @@ const tplSigTitle2 = document.getElementById('tpl-sig-title-2-display');
 const tplSigImg2Actual = document.getElementById('tpl-sig-img-2-display');
 
 const tplLocationDate = document.getElementById('tpl-location-date');
+
+// Translation Elements
+const tplTextCompletion = document.getElementById('tpl-text-completion');
+const tplTextCredits = document.getElementById('tpl-text-credits');
+const tplTextIssue = document.getElementById('tpl-text-issue');
+const tplTextSigned1 = document.getElementById('tpl-text-signed-1');
+const tplTextSigned2 = document.getElementById('tpl-text-signed-2');
+
+const translations = {
+    en: {
+        completion: "Who has successfully completed the degree",
+        credits: "In {year}, with a total of {credits} credits, this degree",
+        issue: "is issued to certify the application.",
+        signed: "Signed:",
+        location: "Murcia,"
+    },
+    es: {
+        completion: "Que ha superado con éxito el programa",
+        credits: "En {year}, con un total de {credits} créditos, el presente diploma",
+        issue: "se expide para certificar la solicitud.",
+        signed: "Firmado:",
+        location: "Murcia,"
+    }
+};
 
 let generatedPdfs = [];
 
@@ -112,7 +137,9 @@ async function handleFile(file) {
 async function processDiplomas(rows, size) {
     generatedPdfs = [];
     const total = rows.length;
-    
+    const lang = langSelect.value;
+    const trans = translations[lang];
+
     // Set template size
     if(size === 'a3') {
         diplomaTemplate.style.width = '1587px';
@@ -124,15 +151,19 @@ async function processDiplomas(rows, size) {
     
     const dims = size === 'a3' ? [1587, 1123] : [1123, 794];
 
+    // Apply translations
+    if (tplTextCompletion) tplTextCompletion.textContent = trans.completion;
+    if (tplTextIssue) tplTextIssue.textContent = trans.issue;
+    if (tplTextSigned1) tplTextSigned1.textContent = trans.signed;
+    if (tplTextSigned2) tplTextSigned2.textContent = trans.signed;
+
     // Sync static fields
-    if (tplCredits) tplCredits.textContent = creditsInput.value;
-    if (tplCourseYear) tplCourseYear.textContent = courseYearInput.value;
     if (tplSigName1) tplSigName1.textContent = sigName1Input.value;
     if (tplSigTitle1) tplSigTitle1.textContent = sigTitle1Input.value;
     if (tplSigName2) tplSigName2.textContent = sigName2Input.value;
     if (tplSigTitle2) tplSigTitle2.textContent = sigTitle2Input.value;
     
-    if (tplLocationDate) tplLocationDate.textContent = `Murcia, ${expeditionDateInput.value}`;
+    if (tplLocationDate) tplLocationDate.textContent = `${trans.location} ${expeditionDateInput.value}`;
 
     for (let i = 0; i < total; i++) {
         const row = rows[i];
@@ -141,8 +172,16 @@ async function processDiplomas(rows, size) {
 
         statusLabel.textContent = `Generando: ${fullName}`;
         statusCount.textContent = `${i + 1}/${total}`;
+        
         if (tplStudentName) tplStudentName.textContent = fullName;
         if (tplEventName) tplEventName.textContent = masterName;
+        
+        // Dynamic translation for credits line
+        if (tplTextCredits) {
+            tplTextCredits.innerHTML = trans.credits
+                .replace('{year}', `<span id="tpl-course-year" style="font-weight: bold;">${courseYearInput.value}</span>`)
+                .replace('{credits}', `<span id="tpl-credits" style="font-weight: bold;">${creditsInput.value}</span>`);
+        }
 
         const canvas = await html2canvas(diplomaTemplate, { 
             scale: 2, 

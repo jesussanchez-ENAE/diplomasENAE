@@ -46,6 +46,14 @@
                     <div class="config-card">
                         <div class="section-title"><i class="fas fa-cog"></i> Configuración Global</div>
                         <div class="input-group">
+                            <label>Idioma del Diploma</label>
+                            <select id="tpl-lang">
+                                <option value="en">Inglés (English)</option>
+                                <option value="es">Español (Spanish)</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
                             <label>Tamaño del PDF</label>
                             <select id="pdf-size">
                                 <option value="a4">A4 Landscape</option>
@@ -151,7 +159,7 @@
                 <!-- Student Name -->
                 <h1 id="tpl-student-name" style="font-family: sans-serif; font-size: 75px; font-weight: 800; color: #000; margin: 20px 0 10px 0;">SONG YAN CAI</h1>
                 
-                <p style="font-size: 20px; color: #666; font-style: italic; margin-bottom: 20px;">Who has successfully completed the degree</p>
+                <p id="tpl-text-completion" style="font-size: 20px; color: #666; font-style: italic; margin-bottom: 20px;">Who has successfully completed the degree</p>
                 
                 <!-- Master Name -->
                 <h2 id="tpl-event-name" style="font-family: sans-serif; font-size: 55px; font-weight: 800; color: #a6192e; margin: 0; line-height: 1.1; max-width: 900px;">Master in Applied Psychology and Management</h2>
@@ -160,8 +168,8 @@
                 
                 <!-- Details -->
                 <div style="font-size: 22px; line-height: 1.6; color: #333; margin-bottom: 30px;">
-                    <p>In <span id="tpl-course-year" style="font-weight: bold;">August 2024</span>, with a total of <span id="tpl-credits" style="font-weight: bold;">60</span> credits, this degree</p>
-                    <p>is issued to certify the application.</p>
+                    <p id="tpl-text-credits">In <span id="tpl-course-year" style="font-weight: bold;">August 2024</span>, with a total of <span id="tpl-credits" style="font-weight: bold;">60</span> credits, this degree</p>
+                    <p id="tpl-text-issue">is issued to certify the application.</p>
                 </div>
 
                 <div id="tpl-location-date" style="font-size: 20px; font-weight: 800; color: #000; margin-bottom: 40px;">
@@ -173,13 +181,13 @@
                     <div style="width: 350px; text-align: center; position: relative;">
                         <img id="tpl-sig-img-1-display" src="" style="display: none; height: 90px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <div style="width: 100%; height: 2px; background: #333;"></div>
-                        <p style="font-size: 16px; font-weight: 800; margin-top: 10px;">Signed: <span id="tpl-sig-name-1-display">D. Miguel López</span></p>
+                        <p style="font-size: 16px; font-weight: 800; margin-top: 10px;"><span id="tpl-text-signed-1">Signed:</span> <span id="tpl-sig-name-1-display">D. Miguel López</span></p>
                         <p id="tpl-sig-title-1-display" style="font-size: 14px; color: #666;">Managing Director</p>
                     </div>
                     <div style="width: 350px; text-align: center; position: relative;">
                         <img id="tpl-sig-img-2-display" src="" style="display: none; height: 90px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <div style="width: 100%; height: 2px; background: #333;"></div>
-                        <p style="font-size: 16px; font-weight: 800; margin-top: 10px;">Signed: <span id="tpl-sig-name-2-display">D. Javier Fernández</span></p>
+                        <p style="font-size: 16px; font-weight: 800; margin-top: 10px;"><span id="tpl-text-signed-2">Signed:</span> <span id="tpl-sig-name-2-display">D. Javier Fernández</span></p>
                         <p id="tpl-sig-title-2-display" style="font-size: 14px; color: #666;">Director Académico</p>
                     </div>
                 </div>
