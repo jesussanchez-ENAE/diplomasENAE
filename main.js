@@ -27,12 +27,13 @@ const sigInput2 = document.getElementById('sig-input-2');
 const sigName2Input = document.getElementById('sig-name-2');
 const sigTitle2Input = document.getElementById('sig-title-2');
 
-// Template elements for replacement
+// Template elements
 const diplomaTemplate = document.getElementById('diploma-template');
 const tplStudentName = document.getElementById('tpl-student-name');
 const tplEventName = document.getElementById('tpl-event-name');
 const tplCredits = document.getElementById('tpl-credits');
 const tplCourseYear = document.getElementById('tpl-course-year');
+const tplLocationDate = document.getElementById('tpl-location-date');
 
 const tplSigName1 = document.getElementById('tpl-sig-name-1-display');
 const tplSigTitle1 = document.getElementById('tpl-sig-title-1-display');
@@ -41,8 +42,6 @@ const tplSigImg1Actual = document.getElementById('tpl-sig-img-1-display');
 const tplSigName2 = document.getElementById('tpl-sig-name-2-display');
 const tplSigTitle2 = document.getElementById('tpl-sig-title-2-display');
 const tplSigImg2Actual = document.getElementById('tpl-sig-img-2-display');
-
-const tplLocationDate = document.getElementById('tpl-location-date');
 
 // Translation Elements
 const tplTextCompletion = document.getElementById('tpl-text-completion');
@@ -70,23 +69,36 @@ const translations = {
 
 let generatedPdfs = [];
 
-// Handle Signature Uploads
-function setupSignatureHandler(input, actualImg) {
+// Handle Signature Uploads with UI updates
+function setupSignatureHandler(num) {
+    const input = document.getElementById(`sig-input-${num}`);
+    const actualImg = document.getElementById(`tpl-sig-img-${num}-display`);
+    const previewImg = document.getElementById(`tpl-sig-img-${num}`);
+    const icon = document.getElementById(`sig-icon-${num}`);
+    const label = document.getElementById(`sig-label-${num}`);
+
     input.addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(event) {
+                // Update Template
                 actualImg.src = event.target.result;
                 actualImg.style.display = 'block';
+                
+                // Update UI Preview
+                previewImg.src = event.target.result;
+                previewImg.style.display = 'block';
+                icon.style.display = 'none';
+                label.textContent = "Cambiar Firma";
             };
             reader.readAsDataURL(file);
         }
     });
 }
 
-setupSignatureHandler(sigInput1, tplSigImg1Actual);
-setupSignatureHandler(sigInput2, tplSigImg2Actual);
+setupSignatureHandler(1);
+setupSignatureHandler(2);
 
 // Drag & Drop
 dropZone.addEventListener('dragover', (e) => {
@@ -95,7 +107,7 @@ dropZone.addEventListener('dragover', (e) => {
 });
 
 dropZone.addEventListener('dragleave', () => {
-    dropZone.style.borderColor = 'var(--slate-200)';
+    dropZone.style.borderColor = 'var(--slate-300)';
 });
 
 dropZone.addEventListener('drop', (e) => {
